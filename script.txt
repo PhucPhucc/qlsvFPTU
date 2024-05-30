@@ -1,0 +1,6 @@
+STT MSSV Surname Middle_name Given_name Sex Age Math Physics Chemistry
+0 CE190082 Nguyen Ba Hung Nam 19 9 9 9
+1 CE190116 Truong Duy Phuc Nam 19 9 9 9
+2 CE190687 Dang Vi Danh Nam 19 9 9 9
+3 CE190744 Truong Doan_Minh Phuc Nam 19 9 9 9
+4 CE190857 To Phi Oanh Nu 19 9 9 9
