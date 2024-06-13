@@ -1,0 +1,6 @@
+1 CE190082 Nguyen Ba Hung Nam 19 9 9 9
+2 CE190116 Truong Duy Phuc Nam 19 9 9 9
+3 CE190687 Dang Vi Danh Nam 19 9 9 9
+4 CE190744 Truong Doan_Minh Phuc Nam 19 9 9 9
+5 CE190857 To Phi Oanh Nu 19 9 9 9
+6 CE190113 Truong Quynh Anh Nu 20 10 10 10
