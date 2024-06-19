@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+// #include <gtk/gtk.h>
+#include <windows.h>
+#include <stdlib.h>
 
 struct students {
    char stt[20];
@@ -36,33 +39,33 @@ void save(struct students student[],int index) {
 }
 
 void getStudents(struct students student[], int index) {
-    printf("%d", index);
-    printf("***************************************************Menu***************************************************************\n");
-    printf("**STT\tMSSV\t\tSurname\t\tMiddle_name\tGiven_name\tSex\tAge\tMath\tPhysics    Chemistry**\n");
+    printf("***************************************************Danh sach***********************************************************\n");
+    printf("**STT\tMSSV\t\tSurname\t\tMiddle_name\tGiven_name\tSex\tAge\tMath\tPhysics    Chemistry **\n");
 
 
     for(int i = 0; i < index; i++) {
         printf("**%s\t", student[i].stt);
         printf("%s\t", student[i].mssv);
         printf("%s\t\t", student[i].surname);
-        printf("%s\b\b\t\t", student[i].middlename);
+        printf("%s      \t", student[i].middlename);
         printf("%s\t\t", student[i].givenname);
         printf("%s\t", student[i].sex);
         printf("%s\t", student[i].age);
         printf("%s\t", student[i].math);
-        printf("%s\t", student[i].physics);
-        printf("\t\b\b\b\b\b%s\t\t", student[i].chemistry);
+        printf("%s\t  ", student[i].physics);
+        printf(" %s\t", student[i].chemistry);
 
-        printf("\b\b\b\b**\n");
+        printf("     **\n");
     }
-    printf("**********************************************************************************************************************\n");
+    printf("***********************************************************************************************************************\n");
 }
 
 void add(struct students student[], int *index) {
-    printf("%d\n", *index);
     char add[10][20];
     char indexstr[3];
-    
+    printf("\n1. Them sinh vien\n", *index + 1);
+    printf("-----------------------------\n");
+    printf("Nhap sinh vien thu %d\n", *index + 1);
     printf("Nhap MSSV: ");
     scanf("%s", add[0]);
     printf("Nhap ho: ");
@@ -81,6 +84,7 @@ void add(struct students student[], int *index) {
     scanf("%s", add[7]);
     printf("nhap diem hoa: ");
     scanf("%s", add[8]);
+    printf("-----------------------------\n");
 
     sprintf(indexstr, "%d", (*index + 1));
     strcpy(student[*index].stt, indexstr);
@@ -98,6 +102,7 @@ void add(struct students student[], int *index) {
 
 }
 
+
 void update() {
 
 }
@@ -110,14 +115,15 @@ void searchName(struct students student, int index) {
     printf("**%s\t", student.stt);
     printf("%s\t", student.mssv);
     printf("%s\t\t", student.surname);
-    printf("%s\b\b\t\t", student.middlename);
+    printf("%s      \t", student.middlename);
     printf("%s\t\t", student.givenname);
     printf("%s\t", student.sex);
     printf("%s\t", student.age);
     printf("%s\t", student.math);
-    printf("%s\t", student.physics);
-    printf("\t\b\b\b\b\b%s\t\t", student.chemistry);
-    printf("\b\b\b\b**\n");
+    printf("%s\t  ", student.physics);
+    printf(" %s\t", student.chemistry);
+    printf("    **\n");
+    
 }
 
 void arrangeGPA() {
@@ -157,69 +163,81 @@ int main(void) {
     int user;
     char name[20];
     int check = 0;
-
-    // printf("Chon chuc nang");
-    scanf("%d", &user);
+    while(1) {
+        system("cls");
+        printf("CHUONG TRINH QUAN LY SINH VIEN FPTU BANG C\n");
+        printf("****************************************************\n");
+        printf("** 1. Them sinh vien.\t\t\t\t  **\n");
+        printf("** 2. Cap nhat thong tin sinh vien boi ID.\t  **\n");
+        printf("** 3. Xoa sinh vien boi ID.\t\t\t  **\n");
+        printf("** 4. Tim kiem sinh vien theo ten.\t\t  **\n");
+        printf("** 5. Sap xep sinh vien theo diem trung binh GPA. **\n");
+        printf("** 6. sap xep sinh vien theo ten.\t\t  **\n");
+        printf("** 7. Hien Thi danh sach sinh vien.\t\t  **\n");
+        printf("** 8. Thoat.\t\t\t\t\t  **\n");
+        printf("****************************************************\n");
+        printf("Nhap tuy chon: ");
+        scanf("%d", &user);
+        // user = 7;
 
 
     
-    switch (user)
-    {
-    case 1:
-        add(student, &index);
-        break;
-    case 2:
-       
-        break;
-    case 3:
-       
-       
-        break;
-    case 4:
-        scanf("%s", name);
-        for(int i = 0; i < index; i++) {
-            if(strcmp(name, student[i].givenname) == 0) {
-                check = 1;
-            }
-        }
-        if(check) {
-            printf("***************************************************Menu***************************************************************\n");
-            printf("**STT\tMSSV\t\tSurname\t\tMiddle_name\tGiven_name\tSex\tAge\tMath\tPhysics    Chemistry**\n");
+        switch (user)
+        {
+        case 1:
+            add(student, &index);
+            
+            break;
+        case 2:
+        
+            break;
+        case 3:
+        
+        
+            break;
+        case 4: 
+            printf("Nhap ten hoac MSSV: ");
+            scanf("%s", name);
             for(int i = 0; i < index; i++) {
-                if(strcmp(name, student[i].givenname) == 0) {
-                    searchName(student[i], index);
+                if(!strcmp(name, student[i].givenname) || !strcmp(name, student[i].mssv)) {
+                    check = 1;
                 }
             }
-            printf("**********************************************************************************************************************\n");
-        } else {
-            printf("Khong do sinh vien trong danh sach");
-        }
-        break;
-    case 5:
-        if(0) {
-            printf("123");
-        }
-        break;
-    case 6:
-       
-        break;
-    case 7:
-        getStudents(student, index);
-        break;
-    case 8:
+            if(check) {
+                printf("***************************************************Menu***************************************************************\n");
+                printf("**STT\tMSSV\t\tSurname\t\tMiddle_name\tGiven_name\tSex\tAge\tMath\tPhysics    Chemistry**\n");
+                for(int i = 0; i < index; i++) {
+                    if(!strcmp(name, student[i].givenname) || !strcmp(name, student[i].mssv)) {
+                        searchName(student[i], index);
+                    }
+                }
+                printf("**********************************************************************************************************************\n");
+            } else {
+                printf("Khong do sinh vien trong danh sach");
+            }
+            system("pause");
         
+            break;
+        case 5:
+            if(0) {
+                printf("123");
+            }
+            system("pause");
+            break;
+        case 6:
         
-        // getStudents(student, index);
-        save(student, index);
-
-        index++;
-        break;
-    default:
-    
-        printf("Khong co chuc nang nay");
-        break;
+            break;
+        case 7:
+            getStudents(student, index);
+            break;
+        case 8: 
+            return 0;
+        default:
+        
+            printf("Khong co chuc nang nay");
+            break;
+        }
     }
-
     return 0;
 }
 
