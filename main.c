@@ -15,6 +15,7 @@ struct students {
    char math[20];
    char physics[20]; 
    char chemistry[20];
+   char avgScore[20];
 };
 
 void save(struct students student[],int index) {
@@ -23,7 +24,7 @@ void save(struct students student[],int index) {
     FILE * fp = NULL;
     fp = fopen("students.txt", "r+");
     for(int i = 0; i < index; i++) {
-        fprintf(fp, "%s %s %s %s %s %s %s %s %s %s\n", 
+        fprintf(fp, "%s %s %s %s %s %s %s %s %s %s %s\n", 
             student[i].stt, 
             student[i].mssv, 
             student[i].surname,
@@ -33,41 +34,50 @@ void save(struct students student[],int index) {
             student[i].age,
             student[i].math,
             student[i].physics,
-            student[i].chemistry);
+            student[i].chemistry,
+            student[i].avgScore);
     }
     fclose(fp);
 }
 
 void getStudents(struct students student[], int index) {
-    printf("***************************************************Danh sach***********************************************************\n");
-    printf("**STT\tMSSV\t\tSurname\t\tMiddle_name\tGiven_name\tSex\tAge\tMath\tPhysics    Chemistry **\n");
+    printf("********************************************************Danh sach***********************************************************\n");
+    printf("**STT\tMSSV\t    Surname\tMiddle_name\tGiven_name\tSex\tAge\tMath\tPhysics     Chemistry\tAvg_score **\n");
 
 
     for(int i = 0; i < index; i++) {
         printf("**%s\t", student[i].stt);
-        printf("%s\t", student[i].mssv);
-        printf("%s\t\t", student[i].surname);
+        printf("%s    ", student[i].mssv);
+        printf("%s  \t", student[i].surname);
         printf("%s      \t", student[i].middlename);
         printf("%s\t\t", student[i].givenname);
         printf("%s\t", student[i].sex);
         printf("%s\t", student[i].age);
         printf("%s\t", student[i].math);
-        printf("%s\t  ", student[i].physics);
-        printf(" %s\t", student[i].chemistry);
+        printf("%s\t    ", student[i].physics);
+        printf("%s   \t", student[i].chemistry);
+        printf("%s\t", student[i].avgScore);
 
-        printf("     **\n");
+        printf("  **\n");
     }
-    printf("***********************************************************************************************************************\n");
+    printf("****************************************************************************************************************************\n");
 }
 
-void add(struct students student[], int *index) {
+void add(struct students student[], int *index, int cased) {
     char add[10][20];
     char indexstr[3];
-    printf("\n1. Them sinh vien\n", *index + 1);
-    printf("-----------------------------\n");
-    printf("Nhap sinh vien thu %d\n", *index + 1);
-    printf("Nhap MSSV: ");
-    scanf("%s", add[0]);
+    if(cased == 1) {
+        printf("\n1. Them sinh vien\n");
+        printf("-----------------------------\n");
+        printf("Nhap sinh vien thu %d\n", *index + 1);
+        printf("Nhap MSSV: ");
+        scanf("%s", add[0]);
+    } else {
+        strcpy(add[0],student[*index].mssv);
+        printf("\n2. Cap nhat sinh vien\n");
+        printf("-----------------------------\n");
+        printf("MSSV: %d\n", *index + 1);
+    }
     printf("Nhap ho: ");
     scanf("%s", add[1]);
     printf("nhap ten dem: ");
@@ -85,7 +95,15 @@ void add(struct students student[], int *index) {
     printf("nhap diem hoa: ");
     scanf("%s", add[8]);
     printf("-----------------------------\n");
+    // const char *str = "12345"; 
+    float math, phy, chemis, avg; 
+    // sscanf(str, "%d", &x); 
+    sscanf(add[6], "%f", &math); 
+    sscanf(add[7], "%f", &phy); 
+    sscanf(add[8], "%f", &chemis); 
 
+    avg = (math + phy + chemis) / 3;
+    sprintf(add[9], "%.3f", avg); 
     sprintf(indexstr, "%d", (*index + 1));
     strcpy(student[*index].stt, indexstr);
     strcpy(student[*index].mssv, add[0]);
@@ -97,7 +115,9 @@ void add(struct students student[], int *index) {
     strcpy(student[*index].math, add[6]);
     strcpy(student[*index].physics, add[7]);
     strcpy(student[*index].chemistry, add[8]);
-    (*index)++;
+    strcpy(student[*index].avgScore, add[9]);
+    
+    // (*index)++;
     save(student, *index);
 
 }
@@ -122,6 +142,7 @@ void searchName(struct students student, int index) {
     printf("%s\t", student.math);
     printf("%s\t  ", student.physics);
     printf(" %s\t", student.chemistry);
+    printf(" %s\t", student.avgScore);
     printf("    **\n");
     
 }
@@ -144,7 +165,7 @@ int main(void) {
     int index = 0;
 
     struct students student[20];
-    while(fscanf(fp, "%s %s %s %s %s %s %s %s %s %s", 
+    while(fscanf(fp, "%s %s %s %s %s %s %s %s %s %s %s", 
                     student[index].stt, 
                     student[index].mssv, 
                     student[index].surname,
@@ -154,7 +175,8 @@ int main(void) {
                     student[index].age,
                     student[index].math,
                     student[index].physics,
-                    student[index].chemistry) != EOF ) {
+                    student[index].chemistry,
+                    student[index].avgScore) != EOF ) {
        index++;
     }
     fclose(fp);
@@ -162,6 +184,8 @@ int main(void) {
 
     int user;
     char name[20];
+    // char mssv[20];
+    char mssv[20];
     int check = 0;
     while(1) {
         system("cls");
@@ -171,11 +195,12 @@ int main(void) {
         printf("** 2. Cap nhat thong tin sinh vien boi ID.\t  **\n");
         printf("** 3. Xoa sinh vien boi ID.\t\t\t  **\n");
         printf("** 4. Tim kiem sinh vien theo ten.\t\t  **\n");
-        printf("** 5. Sap xep sinh vien theo diem trung binh GPA. **\n");
-        printf("** 6. sap xep sinh vien theo ten.\t\t  **\n");
+        printf("** 5. Sap xep sinh vien theo diem trung binh\t  **\n");
+        printf("** 6. Sap xep sinh vien theo ten.\t\t  **\n");
         printf("** 7. Hien Thi danh sach sinh vien.\t\t  **\n");
-        printf("** 8. Thoat.\t\t\t\t\t  **\n");
-        printf("****************************************************\n");
+        printf("** 8. Luu danh sach sinh vien vao he thong.\t  **\n");
+        printf("** 0. Thoat.\t\t\t\t\t  **\n");
+        printf("****************************************************\n\n");
         printf("Nhap tuy chon: ");
         scanf("%d", &user);
         // user = 7;
@@ -185,11 +210,23 @@ int main(void) {
         switch (user)
         {
         case 1:
-            add(student, &index);
-            
+            add(student, &index, user);
+            index++;
+            system("pause");
+            printf("\nDa them sinh vien thanh cong\n");        
             break;
-        case 2:
-        
+        case 2: // updade
+            scanf("%s", mssv);
+            for(int i = 0; i < index; i++) {
+                printf("%d", !strcmp(mssv, student[i].mssv));
+                if(!strcmp(mssv, student[i].mssv)) {
+                    // int *num = &i; 
+                    add(student, &i, user);
+                }
+            }
+
+            printf("\nDa cap nhat sinh vien thanh cong\n");
+            system("pause");
             break;
         case 3:
         
@@ -228,13 +265,23 @@ int main(void) {
         
             break;
         case 7:
+            printf("\n");
             getStudents(student, index);
+            system("pause");
             break;
-        case 8: 
+        case 8:
+            save(student, index);
+            printf("\n Da luu danh sach sinh vien vao he thong thanh cong\n");
+            system("pause");
+            break;    
+        case 0: 
             return 0;
         default:
         
-            printf("Khong co chuc nang nay");
+            printf("Khong co chuc nang nay\n");
+            
+            system("pause");
+            getchar();
             break;
         }
     }
